@@ -22,19 +22,8 @@ void loop() {
 
     int pin[8];
 
-    int bitmask[8] = {
-        1,
-        2,
-        4,
-        8,
-        16,
-        32,
-        64,
-        128
-    };
-
     for (int i = 0; i < 8; i++) {
-        pin[i] = !(inputs & bitmask[i]);   
+        pin[i] = !(inputs & pow(2, i));   
     }
 
     dataForController_t bin = getBlankDataForController();
