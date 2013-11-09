@@ -1,46 +1,34 @@
 //includes
-#include <Wire.h>
-//#include "UnoJoy.h"
+#include "UnoJoy.h"
 
 void setup() {
-	//setupUnoJoy();
+	setupUnoJoy();
 
-	Wire.begin();
-	Serial.begin(9600);
+	for (int i = 2; i < 10; i++) {
+		pinMode(i, INPUT);
+		digitalWrite(i, HIGH);
+	}
+
+	pinMode(A0, INPUT);
+	pinMode(A1, INPUT);
 }
 
 void loop() {
-	//address port B
-	Wire.beginTransmission(0x20);
-	Wire.write(0x13);
-	Wire.endTransmission();
-	
-	//request one byte from 0x20
-	Wire.requestFrom(0x20, 1);
-	   
-	int inputs = Wire.read();
+	dataForController_t bin = getBlankDataForController();
 
-	int pin[8];
+	bin.triangleOn = ! digitalRead(7);
+	bin.circleOn = ! digitalRead(6);
+	bin.squareOn = ! digitalRead(9);
+	bin.crossOn = ! digitalRead(8);
 
-        String prnt = "";
+	bin.startOn = ! digitalRead(3);
+        bin.selectOn = ! digitalRead(4);
+        
+        bin.l1On = ! digitalRead(5);
+        bin.r1On = ! digitalRead(2);
 
-	for (int i = 0; i < 8; i++) {
-		pin[i] = !(inputs & (int)pow(2, i));
-                prnt += (String)pin[i]+" ";
-	}
+	bin.leftStickX = analogRead(A1) >> 2;
+	bin.leftStickY = analogRead(A0) >> 2;
 
-        Serial.println(prnt);
-
-	/*dataForController_t bin = getBlankDataForController();
-
-	bin.triangleOn = pin[0];
-	bin.circleOn = pin[1];
-	bin.squareOn = pin[2];
-	bin.crossOn = pin[3];
-	bin.dpadDownOn = pin[4];
-	bin.dpadLeftOn = pin[5];
-	bin.dpadRightOn = pin[6];
-	bin.l1On = pin[7];
-
-	setControllerData(bin);*/
+	setControllerData(bin);
 }
