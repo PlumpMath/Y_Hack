@@ -17,5 +17,13 @@ void loop() {
     //request one byte from 0x20
     Wire.requestFrom(0x20, 1);
        
-    Serial.println(Wire.read());
+    String x = String(Wire.read(),BIN);
+    Serial.println(x);
+    for(int i = 0; i < x.length();i++){
+      //DO A THING TO THE BYTE
+    }
+
+    
+
+ 
 }
