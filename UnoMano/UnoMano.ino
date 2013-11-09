@@ -34,7 +34,7 @@ void loop() {
     };
 
     for (int i = 0; i < 8; i++) {
-        pin[i] = !!(inputs & bitmask[i]);   
+        pin[i] = !(inputs & bitmask[i]);   
     }
 
     dataForController_t bin = getBlankDataForController();
