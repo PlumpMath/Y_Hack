@@ -2,14 +2,19 @@
 #include <Wire.h>
 //#include "UnoJoy.h"
 
+int counter;
 void setup() {
 	//setupUnoJoy();
 
 	Wire.begin();
 	Serial.begin(9600);
+        counter = 1000000;
 }
 
 void loop() {
+        if (counter == 1000000)
+        {
+        counter = 0;
 	//address port B
 	Wire.beginTransmission(0x20);
 	Wire.write(0x13);
@@ -43,4 +48,7 @@ void loop() {
 	bin.l1On = pin[7];
 
 	setControllerData(bin);*/
+        } else {
+          counter += 1;
+        }
 }
